@@ -121,14 +121,19 @@ public class AmazonProductList {
 		} catch (IOException e) {
 			System.err.println("Error writing to file: " + e.getMessage());
 			e.printStackTrace();
-		}
+		}	  	
+    }
+
+    public void add(AmazonProduct product) {
+        // Adds a product to the list
     	
+    	// takes in the following id, name, category, subCategory, rating, nRatings, discountPrice, actualPrice, imageURL, link
+    	// and adds them into the file as an additional product
     	
     	
     	
     	
     }
-
     
 
     public void edit(int index, AmazonProduct product) {
@@ -143,10 +148,6 @@ public class AmazonProductList {
     public int getSize() {
         // Returns the size of the product list
         return 0;
-    }
-
-    public void add(AmazonProduct product) {
-        // Adds a product to the list
     }
 
     public void delete(int index) {

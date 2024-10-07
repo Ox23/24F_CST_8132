@@ -51,12 +51,22 @@ public class AmazonProductManager {
 		
 	}
 	
-	public void editProduct() {
-	    // Edits a product from the product list
-	}
 	
 	public void addProduct() {
 	    // Adds a new product to the product list
+		
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	public void editProduct() {
+	    // Edits a product from the product list
 	}
 	
 	public void deleteProduct() {
