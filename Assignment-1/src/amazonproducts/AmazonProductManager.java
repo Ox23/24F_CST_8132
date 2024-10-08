@@ -55,7 +55,7 @@ public class AmazonProductManager {
 	public void addProduct() {
 	    // Adds a new product to the product list
 		
-		
+		// 
 		
 		
 		
@@ -100,7 +100,7 @@ public class AmazonProductManager {
 
 	        choice = input.nextInt();
 	        input.nextLine();
-	        switch (choice) {
+	        switch (choice) { // addProduct should be implemented first, then edit, delete and search
             case 0:
                 exit(); // Exit the program    DONE
                 return;
@@ -111,7 +111,7 @@ public class AmazonProductManager {
                 showProductList(); // Show the product list      DONE
                 break;
             case 3:
-                addProduct(); // Add a new product
+                addProduct(); // Add a new product               IN PROGRESS
                 break;
             case 4:
                 editProduct(); // Edit an existing product
@@ -127,7 +127,7 @@ public class AmazonProductManager {
                 break;
             default:
                 System.out.println("Place Holder");
-        }
+	        }
 	        
 		}
 	}

@@ -6,6 +6,7 @@ public class AmazonProductUtil {
 		
 		//System.out.println("Original String: " + str);  // log original string
 		
+		// needs to be done for every currency  
 	    str = str.replace(",", "").replace("₹", ""); // remove commas and currency symbols
 
 	    //System.out.println("Cleaned String: " + str);  // Log the cleaned string
