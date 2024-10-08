@@ -6,7 +6,13 @@ import java.io.*; // //Place holder replacement of BufferReader
 
 public class AmazonProductList {
 	AmazonProductUtil productUtil = new AmazonProductUtil();
-    private static final int NUMCOLS = 10; // number of columns
+	
+	
+    private static final int NUMCOLS = 10; // number of columns // this shit needs to be dynamic???
+    // Maybe change to to dynamicArray.Size or something
+    // But I'm not sure if that will cause problems
+    
+    
     private ArrayList<AmazonProduct> bestsellers = new ArrayList<>();
     
     
@@ -34,6 +40,7 @@ public class AmazonProductList {
 	                continue; // Skip and go to the next line in the CSV
 	            }
 	            
+	            // Change NUMCOLS to dynamicArray.Size()
 	            String[] productData = productUtil.lineReader(str, NUMCOLS); //returns an array of strings representing the fields of the CSV row. 
 	            
 	            // Parsing the product data
@@ -64,7 +71,7 @@ public class AmazonProductList {
     
     public void printList() {
     	
-    	System.out.println("bestsellers size: " + bestsellers.size()); // testing purposes
+    	//System.out.println("bestsellers size: " + bestsellers.size()); // testing purposes
     	
         if (bestsellers.isEmpty()) { // check if its empty 
             System.out.println("The product list is empty. Load the product list first.");
@@ -78,6 +85,13 @@ public class AmazonProductList {
     }
     
 
+    // Error when loading the original csv, displaying, saving it as a test file, and then trying to load the new test file
+    // Changes needed in the saveList method to be more accurate when saving the changed files into csv format 
+    // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 10
+    // For some reason this doesn't save the last entry of the csv file???
+    // But if that's the case why is index 10 out of bounds when you try to load it??????
+    // In theory it should except it? if the index is actually smaller then the NUMCOL variable why wouldn't it work???
+    
     public void saveList(String fileName) {
         // need to use fileWriter class to write each AmazonProduct to a specified file
     	// loop through the bestsellers list and format each product as a CSV row, and write it to the file.

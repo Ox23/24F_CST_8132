@@ -120,7 +120,7 @@ public class AmazonProductManager {
                 deleteProduct(); // Delete a product
                 break;
             case 6:
-                saveProductList(); // Save the product list      DONE
+                saveProductList(); // Save the product list      DONE (Issues present, see productList)
                 break;
             case 7:
                 search(); // Search for a product in the list
