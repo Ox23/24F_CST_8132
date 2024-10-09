@@ -1,0 +1,181 @@
+package amazonproducts;
+
+//import java.io.BufferedReader;
+import java.util.*;
+import java.io.*; // //Place holder replacement of BufferReader
+
+public class AmazonProductList {
+	AmazonProductUtil productUtil = new AmazonProductUtil();
+	
+	
+    private static final int NUMCOLS = 10; // number of columns // this shit needs to be dynamic???
+    // Maybe change to to dynamicArray.Size or something
+    // But I'm not sure if that will cause problems
+    
+    
+    private ArrayList<AmazonProduct> bestsellers = new ArrayList<>();
+    
+    
+    public void createList(String csvFile) {
+    	
+		
+        File file = new File(csvFile); // creates a File object with the name provided by the fileName parameter. 
+        								// This object is used to open and read the file.
+        
+        
+        String str = ""; // empty String variable that will temporarily hold each line read from the file
+        
+		try {
+			Scanner sc = new Scanner(file); // The scanner will be used to read the contents of the file line by line
+			
+			boolean firstLine = true; // Flag to keep track of the first line
+	            
+	        while (sc.hasNextLine()) {
+	            str = sc.nextLine(); // reads the next line of the file and assigns it to the str variable
+	        	
+	            
+	         // Skip the header line
+	            if (firstLine) { 
+	            	firstLine = false; // Set firstLine to false so this block only runs once
+	                continue; // Skip and go to the next line in the CSV
+	            }
+	            
+	            // Change NUMCOLS to dynamicArray.Size()
+	            String[] productData = productUtil.lineReader(str, NUMCOLS); //returns an array of strings representing the fields of the CSV row. 
+	            
+	            // Parsing the product data
+	            int id = Integer.parseInt(productData[0]);
+	            String name = productData[1];
+	            String category  = productData[2]; 
+	            String subCategory  = productData[3];
+	            String imageURL = productData[4];
+	            String link = productData[5];
+	            float rating = productUtil.convertStrToFloat(productData[6]); 
+	            int nRatings = Integer.parseInt(productData[7].replace(",", ""));
+	            float discountPrice = productUtil.convertStrToFloat(productData[8]);
+	            float actualPrice = productUtil.convertStrToFloat(productData[9]);
+	            sc.close(); // closes scanner
+	            // Create an AmazonProduct and add to the list
+	            AmazonProduct product = new AmazonProduct(id, name, category, subCategory, imageURL, link, rating, nRatings, discountPrice, actualPrice);
+	            bestsellers.add(product);
+	        } 
+           
+		 } catch (FileNotFoundException e) {
+             AmazonProductException missingfile = new AmazonProductException("this file does not exist");
+             System.out.print(missingfile);
+        
+      }    catch (NumberFormatException e) {
+              AmazonProductException DataExcept = new AmazonProductException("Error parsing the product data");
+             System.out.print(DataExcept);
+      }
+           catch (InputMismatchException e) {
+	          AmazonProductException candy = new AmazonProductException("this must be an number from one to seven: you entered");
+	             System.out.print(candy);
+	        
+		 }
+    }
+   
+    
+    public void printList() {
+    	
+    	//System.out.println("bestsellers size: " + bestsellers.size()); // testing purposes
+    	
+        if (bestsellers.isEmpty()) { // check if its empty 
+            System.out.println("The product list is empty. Load the product list first.");
+            return;
+        }
+
+        for (AmazonProduct product : bestsellers) { // // for-each loop to print each AmazonProduct in the list
+        	
+            System.out.println(product);  // print the string returned by product.toString().
+        }
+    }
+    
+
+    // Error when loading the original csv, displaying, saving it as a test file, and then trying to load the new test file
+    // Changes needed in the saveList method to be more accurate when saving the changed files into csv format 
+    // Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 10 out of bounds for length 10
+    // For some reason this doesn't save the last entry of the csv file???
+    // But if that's the case why is index 10 out of bounds when you try to load it??????
+    // In theory it should except it? if the index is actually smaller then the NUMCOL variable why wouldn't it work???
+    
+    public void saveList(String fileName) {
+        // need to use fileWriter class to write each AmazonProduct to a specified file
+    	// loop through the bestsellers list and format each product as a CSV row, and write it to the file.
+    	
+    	// open a FileWriter which will be used to write the text to a file
+    	
+    	// write the header, the first line of a CSV file should contain headers such as ID, Name, Category, etc
+    	
+    	// loop through the bestsellers list, for each AmazonProduct convert the product’s attributes into a CSV format string (just comma-separated values)
+    	
+    	// write each product's CSV string to the file
+    	
+    	try {
+			FileWriter writer = new FileWriter(fileName);
+			
+			
+	        writer.write("ID,Name,Category,SubCategory,ImageURL,Link,Rating,Number of Ratings,Discount Price,Actual Price\n"); // write header of CSV file
+	        
+			
+			for (AmazonProduct product : bestsellers) { // go through the bestsellers list and write each product into the file
+				
+	            StringBuilder csvLine = new StringBuilder();
+	            
+	            csvLine.append(product.getId()).append(",");
+	            csvLine.append(product.getName()).append(",");
+	            csvLine.append(product.getCategory()).append(",");
+	            csvLine.append(product.getSubCategory()).append(",");
+	            csvLine.append(product.getImageURL()).append(",");
+	            csvLine.append(product.getLink()).append(",");
+	            csvLine.append(product.getRating()).append(",");
+	            csvLine.append(product.getnRatings()).append(",");
+	            csvLine.append(product.getDiscountPrice()).append(",");
+	            csvLine.append(product.getActualPrice()).append("\n");  
+	            // Write the CSV line to the file
+	            writer.write(csvLine.toString());
+	            writer.close(); // closing writer to prevent errors
+			}
+			
+			System.out.println("Product list saved successfully to " + fileName);
+			
+		} catch (IOException e) {
+			AmazonProductException Ioexcept = new AmazonProductException ("Error writing this file");
+			System.err.println(Ioexcept); //if you cannot write to the file than it will pull the default message from amazonprodcutexceptions
+		}	  	
+    }
+
+    public void add(AmazonProduct product) {
+        // Adds a product to the list
+    	
+    	// takes in the following id, name, category, subCategory, rating, nRatings, discountPrice, actualPrice, imageURL, link
+    	// and adds them into the file as an additional product
+    	
+    	
+    	
+    	
+    }
+    
+
+    public void edit(int index, AmazonProduct product) {
+        // Edits a product at the given index in the list
+    }
+
+    public AmazonProduct findProductByIndex(int index) {
+        // Returns the product at the specified index
+        return null;
+    }
+
+    public int getSize() {
+        // Returns the size of the product list
+        return 0;
+    }
+
+    public void delete(int index) {
+        // Deletes a product at the given index
+    }
+
+    public void search(String name) {
+        // Searches for a product by name
+    }
+}
